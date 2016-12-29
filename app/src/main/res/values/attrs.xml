@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WView">
+        <attr name="picker_visible_item" format="integer"/>
+        <attr name="picker_item_height" format="dimension"/>
+        <attr name="picker_item_text_size" format="dimension"/>
+        <attr name="picker_inner_text_color" format="color"/>
+        <attr name="picker_outer_text_color" format="color"/>
+        <attr name="picker_sep_line_color" format="color"/>
+        <attr name="picker_sep_line_width" format="dimension"/>
+    </declare-styleable>
+</resources>
