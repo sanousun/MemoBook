@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WheelView">
+        <attr name="wheel_visible_item" format="integer"/>
+        <attr name="wheel_item_height" format="dimension"/>
+        <attr name="wheel_item_text_size" format="dimension"/>
+        <attr name="wheel_inner_text_color" format="color"/>
+        <attr name="wheel_outer_text_color" format="color"/>
+        <attr name="wheel_sep_line_color" format="color"/>
+        <attr name="wheel_sep_line_width" format="dimension"/>
+    </declare-styleable>
+</resources>
