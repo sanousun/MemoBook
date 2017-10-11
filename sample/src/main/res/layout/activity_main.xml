@@ -23,4 +23,12 @@
         android:layout_gravity="center"
         android:padding="50dp"/>
 
+    <TextView
+        android:id="@+id/btn_skip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="查看RecyclerView配合LayoutManager的效果"/>
+
 </LinearLayout>
