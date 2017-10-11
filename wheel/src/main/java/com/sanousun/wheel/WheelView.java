@@ -29,7 +29,7 @@ public class WheelView extends View {
     private static final int ANIMATOR_DURING = 300;
 
     /* 转盘的数据*/
-    private List<Object> mData = new ArrayList<>();
+    private List<WheelBean> mData = new ArrayList<>();
     /* 转盘的监听器*/
     private OnWheelChangeListener mOnWheelChangeListener;
 
@@ -155,7 +155,7 @@ public class WheelView extends View {
     /**
      * 设置数据源
      */
-    public void setData(List<Object> data) {
+    public void setData(List<WheelBean> data) {
         mData = data;
         mCurrentIndex = 0;
         mCurrentOffset = 0;
@@ -166,7 +166,7 @@ public class WheelView extends View {
     /**
      * 获取当前选中的数据
      */
-    public Object getCurrentData() {
+    public WheelBean getCurrentData() {
         if (mData != null && mData.size() != 0) {
             return mData.get(mCurrentIndex);
         }
@@ -305,7 +305,7 @@ public class WheelView extends View {
         if (itemPos < 0 || itemPos > mData.size() - 1) {
             return "";
         }
-        return mData.get(itemPos).toString();
+        return mData.get(itemPos).getShowText();
     }
 
     /**
@@ -415,6 +415,6 @@ public class WheelView extends View {
     }
 
     public interface OnWheelChangeListener {
-        void onWheelChange(int index, Object object);
+        void onWheelChange(int index, WheelBean wheelBean);
     }
 }
