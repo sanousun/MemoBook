@@ -18,6 +18,8 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager
 
     // 垂直偏移
     private int verticalScrollOffset = 0;
+    // 基础偏移量，因为第一个item并不是从最顶上开始的
+    private int baseVerticalScrollOffset = 0;
     // item的顶点位置
     private int totalHeight = 0;
     // 保存所有的Item的上下左右的偏移量信息
@@ -47,6 +49,8 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager
         // 进行布局
         int offsetY = 0;
         totalHeight = 0;
+        // 考虑到曲面上的距离，所以基础偏移是1/4周长减去半个item的高度
+        baseVerticalScrollOffset = (int) (Math.PI * getVerticalSpace() / 4);
         for (int i = 0; i < getItemCount(); i++) {
             View child = recycler.getViewForPosition(i);
             addView(child);
@@ -57,6 +61,9 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager
             //计算高度
             int height = getDecoratedMeasuredHeight(child);
             totalHeight += height;
+            if (i == 0) {
+                baseVerticalScrollOffset -= height / 2;
+            }
             Rect frame = allItemFrames.get(i);
             if (frame == null) {
                 frame = new Rect();
@@ -71,6 +78,7 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager
         }
         // 如果所有子View的高度和没有填满RecyclerView的高度，则将高度设置为RecyclerView的高度
         totalHeight = Math.max(totalHeight, getVerticalCurveSpace());
+        verticalScrollOffset = baseVerticalScrollOffset;
         recycleAndFillItems(recycler, state);
     }
 
@@ -177,10 +185,10 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager
         //实际要滑动的距离
         int travel = dy;
         //如果滑动到最顶部
-        if (verticalScrollOffset + dy < 0) {
-            travel = -verticalScrollOffset;
-        } else if (verticalScrollOffset + dy > totalHeight - getVerticalCurveSpace()) {//如果滑动到最底部
-            travel = totalHeight - getVerticalCurveSpace() - verticalScrollOffset;
+        if (verticalScrollOffset + dy < baseVerticalScrollOffset) {
+            travel = baseVerticalScrollOffset - verticalScrollOffset;
+        } else if (verticalScrollOffset + dy > totalHeight - getVerticalCurveSpace() + baseVerticalScrollOffset) {//如果滑动到最底部
+            travel = totalHeight - getVerticalCurveSpace() + baseVerticalScrollOffset - verticalScrollOffset;
         }
         //将竖直方向的偏移量+travel
         verticalScrollOffset += travel;
