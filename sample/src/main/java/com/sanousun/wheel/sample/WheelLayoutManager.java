@@ -78,7 +78,7 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager
         }
         // 如果所有子View的高度和没有填满RecyclerView的高度，则将高度设置为RecyclerView的高度
         totalHeight = Math.max(totalHeight, getVerticalCurveSpace());
-        verticalScrollOffset = baseVerticalScrollOffset;
+        verticalScrollOffset = -baseVerticalScrollOffset;
         recycleAndFillItems(recycler, state);
     }
 
@@ -185,8 +185,8 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager
         //实际要滑动的距离
         int travel = dy;
         //如果滑动到最顶部
-        if (verticalScrollOffset + dy < baseVerticalScrollOffset) {
-            travel = baseVerticalScrollOffset - verticalScrollOffset;
+        if (verticalScrollOffset + dy < -baseVerticalScrollOffset) {
+            travel = -baseVerticalScrollOffset - verticalScrollOffset;
         } else if (verticalScrollOffset + dy > totalHeight - getVerticalCurveSpace() + baseVerticalScrollOffset) {//如果滑动到最底部
             travel = totalHeight - getVerticalCurveSpace() + baseVerticalScrollOffset - verticalScrollOffset;
         }
