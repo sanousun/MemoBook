@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by dashu on 2017/10/10.
+ * @author dashu
+ * @date 2017/10/10.
  * 使用recyclerView的方式去实现滚轮
  */
 
@@ -30,5 +31,6 @@ public class SecondActivity extends AppCompatActivity {
         }
         ItemAdapter adapter = new ItemAdapter(this, dataSource);
         mWheelRecycler.setAdapter(adapter);
-        new LinearSnapHelper().attachToRecyclerView(mWheelRecycler);}
+        new LinearSnapHelper().attachToRecyclerView(mWheelRecycler);
+    }
 }

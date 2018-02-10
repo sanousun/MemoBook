@@ -9,22 +9,38 @@ import android.util.SparseBooleanArray;
 import android.view.View;
 
 /**
- * Created by dashu on 2017/10/10.
+ * @author dashu
+ * @date 2017/10/10
  * 模仿滚轮的LayoutManager
  */
 
 public class WheelLayoutManager extends RecyclerView.LayoutManager
         implements RecyclerView.SmoothScroller.ScrollVectorProvider {
 
-    // 垂直偏移
+    /**
+     * 最小缩放比例
+     */
+    private static final float MIN_SCALE = 0.05f;
+
+    /**
+     * 垂直偏移
+     */
     private int verticalScrollOffset = 0;
-    // 基础偏移量，因为第一个item并不是从最顶上开始的
+    /**
+     * 基础偏移量，因为第一个item并不是从最顶上开始的
+     */
     private int baseVerticalScrollOffset = 0;
-    // item的顶点位置
+    /**
+     * item的顶点位置
+     */
     private int totalHeight = 0;
-    // 保存所有的Item的上下左右的偏移量信息
+    /**
+     * 保存所有的Item的上下左右的偏移量信息
+     */
     private SparseArray<Rect> allItemFrames = new SparseArray<>();
-    // 记录Item是否出现过屏幕且还没有回收。true表示出现过屏幕上，并且还没被回收
+    /**
+     * 记录Item是否出现过屏幕且还没有回收。true表示出现过屏幕上，并且还没被回收
+     */
     private SparseBooleanArray hasAttachedItems = new SparseBooleanArray();
 
     @Override
@@ -86,7 +102,8 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager
      * 回收不需要的Item，并且将需要显示的Item从缓存中取出
      */
     private void recycleAndFillItems(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        if (state.isPreLayout()) { // 跳过preLayout，preLayout主要用于支持动画
+        // 跳过preLayout，preLayout主要用于支持动画
+        if (state.isPreLayout()) {
             return;
         }
 
@@ -103,9 +120,9 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager
             childFrame.top = getDecoratedTop(child);
             childFrame.right = getDecoratedRight(child);
             childFrame.bottom = getDecoratedBottom(child);
-            //如果Item没有在显示区域，就说明需要回收
+            // 如果Item没有在显示区域，就说明需要回收
             if (!Rect.intersects(displayFrame, childFrame)) {
-                //回收掉滑出屏幕的View
+                // 回收掉滑出屏幕的View
                 removeAndRecycleView(child, recycler);
             }
         }
@@ -138,8 +155,8 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager
                 (int) (verticalPoint + frameHeight / 2)
         );
         float scaleRate = (float) Math.cos(arc);
-        if (scaleRate < 0.05f) {
-            scaleRate = 0.05f;
+        if (scaleRate < MIN_SCALE) {
+            scaleRate = MIN_SCALE;
         }
         scrap.setScaleY(scaleRate);
     }
@@ -180,17 +197,19 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager
 
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        //先detach掉所有的子View
+        // 先detach掉所有的子View
         detachAndScrapAttachedViews(recycler);
-        //实际要滑动的距离
+        // 实际要滑动的距离
         int travel = dy;
-        //如果滑动到最顶部
+        // 如果滑动到最顶部
         if (verticalScrollOffset + dy < -baseVerticalScrollOffset) {
             travel = -baseVerticalScrollOffset - verticalScrollOffset;
-        } else if (verticalScrollOffset + dy > totalHeight - getVerticalCurveSpace() + baseVerticalScrollOffset) {//如果滑动到最底部
+        }
+        // 如果滑动到最底部
+        else if (verticalScrollOffset + dy > totalHeight - getVerticalCurveSpace() + baseVerticalScrollOffset) {
             travel = totalHeight - getVerticalCurveSpace() + baseVerticalScrollOffset - verticalScrollOffset;
         }
-        //将竖直方向的偏移量+travel
+        // 将竖直方向的偏移量+travel
         verticalScrollOffset += travel;
         // 平移容器内的item
         offsetChildrenVertical(-travel);

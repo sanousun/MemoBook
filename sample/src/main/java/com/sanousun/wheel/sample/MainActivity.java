@@ -11,6 +11,11 @@ import com.sanousun.wheel.WheelView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author dashu
+ * @date 2017/10/10
+ * 主入口
+ */
 public class MainActivity extends AppCompatActivity {
 
     WheelView mWheelView;
@@ -26,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 mWheelText.setText("index：" + index + "，wheelBean：" + wheelBean.getShowText()));
         List<WheelBean> data = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            data.add(new WheelDao("我是item "+i));
+            data.add(new WheelDao("我是item " + i));
         }
         mWheelView.setData(data);
         findViewById(R.id.btn_skip).setOnClickListener(view -> startActivity(new Intent(this, SecondActivity.class)));

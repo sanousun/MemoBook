@@ -19,44 +19,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Date: 2016/11/21
- * Time: 下午6:52
- * Desc: 仿iOS的滚轮控件
+ * @author dashu
+ * @date 2016/11/21
+ * 仿iOS的滚轮控件
  */
 
 public class WheelView extends View {
 
     private static final int ANIMATOR_DURING = 300;
 
-    /* 转盘的数据*/
+    /**
+     * 转盘的数据
+     */
     private List<WheelBean> mData = new ArrayList<>();
-    /* 转盘的监听器*/
+    /**
+     * 转盘的监听器
+     */
     private OnWheelChangeListener mOnWheelChangeListener;
 
-    /* 分割线外文字画笔 */
+    /**
+     * 分割线外文字画笔
+     */
     private Paint mOuterTxtPaint;
-    /* 分割线内文字画笔 */
+    /**
+     * 分割线内文字画笔
+     */
     private Paint mInnerTxtPaint;
-    /* 分割线画笔 */
+    /**
+     * 分割线画笔
+     */
     private Paint mLinePaint;
 
     private double mRadius;
 
-    /* item的可见数量*/
+    /**
+     * item的可见数量
+     */
     private int mVisibleItemCount;
-    /* item的高度，view的高度为wrap_content的时候可以自定义*/
+    /**
+     * item的高度，view的高度为wrap_content的时候可以自定义
+     */
     private int mItemHeight;
-    /* item的对应角度，180/mVisibleItemCount*/
+    /**
+     * item的对应角度，180/mVisibleItemCount
+     */
     private double mItemAngle;
 
-    /* 第一条分隔线高度*/
+    /**
+     * 第一条分隔线高度
+     */
     private float mTopSepLineHeight;
-    /* 第二条分隔线高度*/
+    /**
+     * 第二条分隔线高度
+     */
     private float mBottomSepLineHeight;
 
-    /* 当前的偏移量，0..mItemHeight*(mData.size()-1)*/
+    /**
+     * 当前的偏移量，0..mItemHeight*(mData.size()-1)
+     */
     private int mCurrentOffset;
-    /* 当期的下标，0..mData.size()-1*/
+    /**
+     * 当期的下标，0..mData.size()-1
+     */
     private int mCurrentIndex;
 
     private boolean isAutoScroll;
@@ -118,7 +142,9 @@ public class WheelView extends View {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
                 double touchY = e.getY() - getPaddingTop();
-                if (touchY < 0 || touchY > 2 * mRadius) return false;
+                if (touchY < 0 || touchY > 2 * mRadius) {
+                    return false;
+                }
                 double touchAngle = Math.acos((mRadius - touchY) / mRadius);
                 int scrollY = (int) ((touchAngle - Math.PI / 2) * mRadius);
                 Log.i("xyz", "scrollY:" + scrollY);
@@ -253,24 +279,30 @@ public class WheelView extends View {
         for (int i = 0; i <= mVisibleItemCount; i++) {
             canvas.save();
             double offsetAngle = -(mItemAngle * (itemOffset * 1.0 / mItemHeight));
-            //计算顶部的角度
+            // 计算顶部的角度
             double angle0 = i * mItemAngle + offsetAngle;
-            if (angle0 < 0) angle0 = 0;
+            if (angle0 < 0) {
+                angle0 = 0;
+            }
             Log.i("angle0", "angle0: " + angle0);
-            //计算底部的角度
+            // 计算底部的角度
             double angle1 = (i + 1) * mItemAngle + offsetAngle;
-            if (angle1 > Math.PI) angle1 = Math.PI;
+            if (angle1 > Math.PI) {
+                angle1 = Math.PI;
+            }
             Log.i("angle1", "angle1: " + angle1);
-            //计算出该 item 的实际高度
+            // 计算出该 item 的实际高度
             float itemHeight = (float) ((Math.cos(angle0) - Math.cos(angle1)) * mRadius);
-            //计算出一个缩放值
+            // 计算出一个缩放值
             float scaleY = itemHeight / mItemHeight;
-            //这里的高度是折叠前的
+            // 这里的高度是折叠前的
             int itemY = (int) ((1 - Math.cos(angle0)) * mRadius + itemHeight / 2);
             Log.i("itemY", "itemY: " + (itemY - mRadius));
             int itemLocationY = (int) (itemY / scaleY);
             Log.i("itemLocationY", "itemLocationY: " + itemLocationY);
-            if (itemHeight < dp2px(1)) continue;
+            if (itemHeight < dp2px(1)) {
+                continue;
+            }
             //需要靠画布的折叠来实现效果
             canvas.save();
             if (i == mVisibleItemCount / 2) {
@@ -377,7 +409,9 @@ public class WheelView extends View {
     }
 
     private void animator(int from, int to) {
-        if (from == to) return;
+        if (from == to) {
+            return;
+        }
         if (mValueAnimator == null) {
             mValueAnimator = ValueAnimator.ofInt(from, to);
             mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -415,6 +449,12 @@ public class WheelView extends View {
     }
 
     public interface OnWheelChangeListener {
+        /**
+         * 滚轮切换监听
+         *
+         * @param index     目标
+         * @param wheelBean 目标数据
+         */
         void onWheelChange(int index, WheelBean wheelBean);
     }
 }

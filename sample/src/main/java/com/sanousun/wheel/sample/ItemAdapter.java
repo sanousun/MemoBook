@@ -10,7 +10,8 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by dashu on 2017/10/10.
+ * @author dashu
+ * @date 2017/10/10.
  * 滚轮条目的适配器
  */
 
