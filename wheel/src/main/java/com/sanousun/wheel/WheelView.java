@@ -1,7 +1,5 @@
 package com.sanousun.wheel;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -414,6 +412,8 @@ public class WheelView extends View {
         }
         if (mValueAnimator == null) {
             mValueAnimator = ValueAnimator.ofInt(from, to);
+            mValueAnimator.setDuration(ANIMATOR_DURING);
+            mValueAnimator.setInterpolator(new DecelerateInterpolator());
             mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -424,28 +424,17 @@ public class WheelView extends View {
                     }
                 }
             });
-            mValueAnimator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    isAutoScroll = true;
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    isAutoScroll = false;
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    isAutoScroll = false;
-                }
-            });
-            mValueAnimator.setDuration(ANIMATOR_DURING);
-            mValueAnimator.setInterpolator(new DecelerateInterpolator());
         } else {
             mValueAnimator.setIntValues(from, to);
         }
+        isAutoScroll = true;
         mValueAnimator.start();
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isAutoScroll = false;
+            }
+        }, ANIMATOR_DURING);
     }
 
     public interface OnWheelChangeListener {
