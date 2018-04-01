@@ -16,12 +16,12 @@
         android:gravity="center"
         android:textSize="15sp"/>
 
-    <com.sanousun.wheel.WheelView
+    <com.sanousun.wheel.ScrollWheelView
         android:id="@+id/view_wheel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="50dp"/>
+        android:padding="20dp"/>
 
     <TextView
         android:id="@+id/btn_skip"

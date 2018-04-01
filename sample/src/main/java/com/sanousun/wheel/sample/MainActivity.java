@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.sanousun.wheel.WheelBean;
-import com.sanousun.wheel.WheelView;
+import com.sanousun.wheel.ScrollWheelView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity {
 
-    WheelView mWheelView;
+    ScrollWheelView mWheelView;
     TextView mWheelText;
 
     @Override
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         mWheelView.setOnWheelChangeListener((index, wheelBean) ->
                 mWheelText.setText("index：" + index + "，wheelBean：" + wheelBean.getShowText()));
         List<WheelBean> data = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             data.add(new WheelDao("我是item " + i));
         }
         mWheelView.setData(data);

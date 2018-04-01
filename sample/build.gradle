@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    compileSdkVersion versions.compileSdk
     defaultConfig {
         applicationId "com.sanousun.wheel.sample"
-        minSdkVersion 21
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.compileSdk
+        versionCode versions.versionCode
+        versionName versions.versionName
     }
     buildTypes {
         release {
@@ -22,11 +21,9 @@ android {
     }
 }
 
-def supportVer = "27.0.2"
-
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.android.support:appcompat-v7:${supportVer}"
-    implementation "com.android.support:recyclerview-v7:${supportVer}"
-    compile project(':wheel')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:${deps.androidSupport}"
+    implementation "com.android.support:recyclerview-v7:${deps.androidSupport}"
+    implementation project(':wheel')
 }

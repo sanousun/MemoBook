@@ -270,7 +270,6 @@ public class WheelView extends View {
         //偏移后的index改变时通知监听器
         if (mCurrentIndex != curIndex) {
             mCurrentIndex = curIndex;
-            notifyIndexChange();
         }
 
         // 开始绘制，可见 item 为奇数，需要绘制 +1 个才能保证上下可见
@@ -408,6 +407,7 @@ public class WheelView extends View {
 
     private void animator(int from, int to) {
         if (from == to) {
+            notifyIndexChange();
             return;
         }
         if (mValueAnimator == null) {
@@ -433,8 +433,9 @@ public class WheelView extends View {
             @Override
             public void run() {
                 isAutoScroll = false;
+                notifyIndexChange();
             }
-        }, ANIMATOR_DURING);
+        }, ANIMATOR_DURING + 60);
     }
 
     public interface OnWheelChangeListener {

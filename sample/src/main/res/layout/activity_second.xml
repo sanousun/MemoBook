@@ -13,4 +13,23 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <EditText
+            android:id="@+id/et_jmp"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:hint="设置跳转"
+            android:inputType="number"/>
+
+        <Button
+            android:id="@+id/btn_jmp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="跳转"/>
+
+    </LinearLayout>
+
 </LinearLayout>
